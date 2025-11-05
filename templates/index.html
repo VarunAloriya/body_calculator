@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elite Body Calculator 💪</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      text-align: center;
+      min-height: 100vh;
+      background-attachment: fixed;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      color: #00c6ff;
+    }
+
+    .banner {
+      width: 100%;
+      max-height: 300px;
+      overflow: hidden;
+    }
+    .banner img {
+      width: 100%;
+      opacity: 0.8;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      display: inline-block;
+      text-align: left;
+      margin-top: 30px;
+      width: 90%;
+      max-width: 400px;
+      transition: 0.3s;
+    }
+
+    form:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .result {
+      background: rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      display: inline-block;
+      text-align: left;
+      margin-top: 30px;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    .result h2 {
+      color: #00c6ff;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 8px 0;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    img.icon {
+      height: 60px;
+      width: 60px;
+      border-radius: 10px;
+      margin: 5px;
+      transition: 0.2s;
+    }
+
+    .icons {
+      margin-top: 15px;
+    }
+    .icon:hover { transform: scale(1.1); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏋️ Elite Body Calculator</h1>
+    <p>Calculate your body stats and get personalized fitness insights</p>
+  </header>
+
+  <div class="banner">
+    <img src="https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=1600&q=80" alt="Fitness banner">
+  </div>
+
+  <form method="POST">
+    <label>Age:</label><input type="number" name="age" required>
+    <label>Gender:</label>
+    <select name="gender" required>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    <label>Height (cm):</label><input type="number" name="height" required>
+    <label>Weight (kg):</label><input type="number" name="weight" required>
+    <label>Activity Level:</label>
+    <select name="activity">
+      <option value="sedentary">Sedentary</option>
+      <option value="light">Light (1-3 days/week)</option>
+      <option value="moderate">Moderate (3-5 days/week)</option>
+      <option value="active">Active (6 days/week)</option>
+      <option value="very_active">Very Active</option>
+    </select>
+    <label>Goal:</label>
+    <select name="goal">
+      <option value="maintenance">Maintenance</option>
+      <option value="gain">Muscle Gain</option>
+      <option value="cut">Fat Loss</option>
+      <option value="strength">Strength</option>
+    </select>
+    <button type="submit">💥 Calculate</button>
+  </form>
+
+  {% if result %}
+  <div class="result">
+    <h2>Your Fitness Stats</h2>
+    <div class="stat"><b>BMI:</b> <span>{{ result.bmi }} ({{ result.bmi_status }})</span></div>
+    <div class="stat"><b>Body Fat %:</b> <span>{{ result.body_fat }}%</span></div>
+    <div class="stat"><b>Lean Body Mass:</b> <span>{{ result.lbm }} kg</span></div>
+    <div class="stat"><b>BMR:</b> <span>{{ result.bmr }} kcal/day</span></div>
+    <div class="stat"><b>TDEE:</b> <span>{{ result.tdee }} kcal/day</span></div>
+    <div class="stat"><b>Calorie Target:</b> <span>{{ result.calories }} kcal/day</span></div>
+    <div class="stat"><b>Protein:</b> <span>{{ result.protein }} g</span></div>
+    <div class="stat"><b>Fat:</b> <span>{{ result.fat }} g</span></div>
+    <div class="stat"><b>Carbs:</b> <span>{{ result.carbs }} g</span></div>
+    <div class="stat"><b>Ideal Weight Range:</b> <span>{{ result.min_ideal_weight }}–{{ result.max_ideal_weight }} kg</span></div>
+
+    <p><b>💬 Note:</b> {{ result.note }}</p>
+    <p><b>💡 Health Tip:</b> {{ result.health_comment }}</p>
+
+    <div class="icons">
+      <img class="icon" src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" title="Muscle" alt="Muscle">
+      <img class="icon" src="https://cdn-icons-png.flaticon.com/512/2966/2966342.png" title="Heart" alt="Heart">
+      <img class="icon" src="https://cdn-icons-png.flaticon.com/512/2966/2966338.png" title="Nutrition" alt="Food">
+      <img class="icon" src="https://cdn-icons-png.flaticon.com/512/2966/2966350.png" title="Training" alt="Workout">
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="footer">
+    <p>Made with ❤️ by Varun — Powered by Flask & Python</p>
+  </div>
+</body>
+</html>
